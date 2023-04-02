@@ -1,0 +1,21 @@
+build:
+  docker:
+    web: Dockerfile
+run:
+  web:
+    image: web
+    command: python manage.py runserver 0.0.0.0:$PORT
+    environment:
+      PGUSER: postgres
+      PGHOST: ${{ secrets.DB_HOST }}
+      PGDATABASE: postgres
+      PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+      PGPORT: 5432
+    ports:
+      - $PORT:$PORT
+    depends_on:
+      - db
+  db:
+    image: postgres_db
+    environment:
+      POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
