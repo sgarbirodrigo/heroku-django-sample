@@ -11,19 +11,22 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+IS_HEROKU = "DYNO" in os.environ
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-b6$^-q7kqwd_@@^d=u2l=%&=rw%+wptk^8_c!*rekl)%zzoqhj"
+SECRET_KEY = "django-insecure-b6$^-q7kqwd_@@ASDFQ!(#@*&$(!*@&$^d=u2l=%&=rw%+wptk^8_c!*rekl)%zzoqhj"
 
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ["SECRET_KEY"]
+    
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if not IS_HEROKU:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -69,6 +72,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "bca.wsgi.application"
 
+# Enable WhiteNoise's GZip compression of static assets.
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
