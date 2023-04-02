@@ -1,1 +1,1 @@
-web: gunicorn djangorivers.wsgi --log-file -
+web: gunicorn bca.wsgi --log-file -
