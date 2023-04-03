@@ -4,7 +4,7 @@ build:
 run:
   web:
     image: web
-    command: python manage.py runserver 0.0.0.0:$PORT
+    command: gunicorn bca.wsgi:application --bind 0.0.0.0:$PORT
     environment:
       PGUSER: postgres
       PGHOST: ${{ secrets.DB_HOST }}
